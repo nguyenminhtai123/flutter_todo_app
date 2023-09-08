@@ -11,6 +11,15 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    var bloc = Provider.of<TodoBloc>(context);
+    bloc.initData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -24,10 +33,8 @@ class _TodoListState extends State<TodoList> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      snapshot.data![index].content!.toString(),
-                      style: const TextStyle(
-                        fontSize: 17
-                      )
+                      snapshot.data![index].content!,
+                      style: const TextStyle(fontSize: 20),
                     ),
                     trailing: GestureDetector(
                       onTap: () {
@@ -41,7 +48,21 @@ class _TodoListState extends State<TodoList> {
                   );
                 }
               );
+
+            case ConnectionState.waiting:
+              return const Center(
+                child: SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: Text(
+                    'Empty',
+                    style: TextStyle(fontSize: 20)
+                  )
+                )
+              );
+
             case ConnectionState.none: 
+
             default: 
               return const Center(
                 child: SizedBox(

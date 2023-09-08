@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/bloc/todo_bloc.dart';
+import 'package:todo_list_app/db/todo_database.dart';
 import 'package:todo_list_app/src/todo_list_container.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await TodoDatabase.instance.init();
   runApp(const MyApp());
 }
 
